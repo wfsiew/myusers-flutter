@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:myusers_flutter/services/user.service.dart';
-import 'package:myusers_flutter/models/userlist.dart';
+import 'package:myusers_flutter/models/user.dart';
 import 'package:myusers_flutter/helpers.dart';
+import 'package:myusers_flutter/ui/detail.dart';
 
 class Home extends StatefulWidget {
   Home({Key key, this.title}) : super(key: key);
@@ -19,7 +20,7 @@ class _HomeState extends State<Home> {
 
   int currIndex = 0;
   ScrollController scr = ScrollController();
-  List<UserList> ls = <UserList>[];
+  List<User> ls = <User>[];
   int page = 1;
   bool isLoading = false;
   final GlobalKey<RefreshIndicatorState> refreshIndicatorKey = GlobalKey<RefreshIndicatorState>();
@@ -55,7 +56,7 @@ class _HomeState extends State<Home> {
       });
     }
 
-    catch(error) {
+    catch (error) {
       setState(() {
        isLoading = false;
        handleError(context, error, load);
@@ -77,7 +78,7 @@ class _HomeState extends State<Home> {
       });
     }
 
-    catch(error) {
+    catch (error) {
       handleError(context, error, loadMore);
     }
   }
@@ -92,15 +93,15 @@ class _HomeState extends State<Home> {
       });
     }
 
-    catch(error) {
+    catch (error) {
       handleError(context, error, () async {
         await refreshData();
       });
     }
   }
 
-  Widget buildRow(UserList o) {
-    return Card(
+  Widget buildRow(User o) {
+    return Container(
       child: ListTile(
         title: Text(
           '${o.email}',
@@ -117,6 +118,14 @@ class _HomeState extends State<Home> {
             child: Text('${o.id}')
           ),
         ),
+        onTap: () async {
+          final b = await Navigator.pushNamed(context, Detail.routeName, arguments: o.id) ?? false;
+          if (b) {
+            final snackBar = SnackBar(content: Text('User successfully deleted!'), duration: Duration(seconds: 3));
+            scaffoldKey.currentState.showSnackBar(snackBar);
+            load();
+          }
+        },
       )
     );
   }
@@ -127,13 +136,16 @@ class _HomeState extends State<Home> {
     }
 
     return Container(
-      child: ListView.builder(
+      child: ListView.separated(
         padding: const EdgeInsets.all(2.0),
         controller: scr,
         itemCount: ls.length,
         itemBuilder: (context, i) {
-          UserList o = ls[i];
+          User o = ls[i];
           return buildRow(o);
+        },
+        separatorBuilder: (context, i) {
+          return Divider();
         },
       )
     );

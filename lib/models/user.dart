@@ -1,13 +1,13 @@
 import 'pageinfo.dart';
 
-class UserList {
+class User {
   int id;
   String email;
   String firstName;
   String lastName;
   String avatar;
 
-  UserList({
+  User({
     this.id,
     this.email,
     this.firstName,
@@ -15,8 +15,8 @@ class UserList {
     this.avatar
   });
 
-  factory UserList.fromJson(Map<String, dynamic> json) {
-    return UserList(
+  factory User.fromJson(Map<String, dynamic> json) {
+    return User(
       id: json['id'],
       email: json['email'],
       firstName: json['first_name'],
@@ -28,7 +28,7 @@ class UserList {
 
 class UserListResponse {
   PageInfo pageInfo;
-  List<UserList> userList;
+  List<User> userList;
 
   UserListResponse({
     this.pageInfo,
@@ -37,7 +37,7 @@ class UserListResponse {
 
   factory UserListResponse.fromJson(Map<String, dynamic> json) {
     var ls = json['data'] as List;
-    List<UserList> lx = ls.map<UserList>((x) => UserList.fromJson(x)).toList();
+    List<User> lx = ls.map<User>((x) => User.fromJson(x)).toList();
     return UserListResponse(
       pageInfo: PageInfo.fromJson(json),
       userList: lx
