@@ -107,7 +107,8 @@ class _CreateState extends State<Create> {
         Container(
           width: MediaQuery.of(context).size.width,
           padding: EdgeInsets.only(left: 2.0, right: 2.0),
-          child: FlatButton(
+          child: RaisedButton(
+            elevation: 5,
             color: Colors.blue,
             child: Text('Create'),
             onPressed: !isValid ? null : () async {

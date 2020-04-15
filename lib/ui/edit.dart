@@ -109,7 +109,8 @@ class _EditState extends State<Edit> {
         Container(
           width: MediaQuery.of(context).size.width,
           padding: EdgeInsets.only(left: 2.0, right: 2.0),
-          child: FlatButton(
+          child: RaisedButton(
+            elevation: 5,
             color: Colors.blue,
             child: Text('Update'),
             onPressed: !isValid ? null : () async {
