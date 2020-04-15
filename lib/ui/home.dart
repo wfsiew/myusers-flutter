@@ -3,7 +3,8 @@ import 'dart:async';
 import 'package:myusers_flutter/services/user.service.dart';
 import 'package:myusers_flutter/models/user.dart';
 import 'package:myusers_flutter/helpers.dart';
-import 'package:myusers_flutter/ui/detail.dart';
+import 'create.dart';
+import 'detail.dart';
 
 class Home extends StatefulWidget {
   Home({Key key, this.title}) : super(key: key);
@@ -18,7 +19,6 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
 
-  int currIndex = 0;
   ScrollController scr = ScrollController();
   List<User> ls = <User>[];
   int page = 1;
@@ -100,6 +100,14 @@ class _HomeState extends State<Home> {
     }
   }
 
+  Future<void> onCreateUser() async {
+    final b = await Navigator.pushNamed(context, Create.routeName) ?? false;
+    if (b) {
+      final snackBar = SnackBar(content: Text('User successfully created!'), duration: Duration(seconds: 3));
+      scaffoldKey.currentState.showSnackBar(snackBar);
+    }
+  }
+
   Widget buildRow(User o) {
     return Container(
       child: ListTile(
@@ -163,6 +171,12 @@ class _HomeState extends State<Home> {
         key: refreshIndicatorKey,
         onRefresh: refreshData,
         child: buildList(),
+      ),
+      floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.add),
+        onPressed: () async {
+          await onCreateUser();
+        },
       ),
     );
   }

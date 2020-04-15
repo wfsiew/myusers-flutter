@@ -1,9 +1,9 @@
-
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:myusers_flutter/services/user.service.dart';
 import 'package:myusers_flutter/models/user.dart';
 import 'package:myusers_flutter/helpers.dart';
+import 'edit.dart';
 
 class Detail extends StatefulWidget {
   Detail({Key key, this.title}) : super(key: key);
@@ -17,6 +17,8 @@ class Detail extends StatefulWidget {
 }
 
 class _DetailState extends State<Detail> {
+
+  final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   void initState() {
@@ -38,7 +40,15 @@ class _DetailState extends State<Detail> {
     return o;
   }
 
-  void onDeleteUser(int id) async {
+  Future<void> onEditUser(BuildContext context, int id) async {
+    final b = await Navigator.pushNamed(context, Edit.routeName, arguments: id) ?? false;
+    if (b) {
+      final snackBar = SnackBar(content: Text('User successfully updated!'), duration: Duration(seconds: 3));
+      scaffoldKey.currentState.showSnackBar(snackBar);
+    }
+  }
+
+  Future<void> onDeleteUser(int id) async {
     bool b = await showDialog<bool>(
       context: context,
       builder: (context) {
@@ -134,6 +144,7 @@ class _DetailState extends State<Detail> {
     );
 
     return Scaffold(
+      key: scaffoldKey,
       appBar: AppBar(
         title: Text(widget.title),
       ),
@@ -150,8 +161,8 @@ class _DetailState extends State<Detail> {
                     elevation: 5,
                     color: Colors.blue,
                     child: Text('Edit'),
-                    onPressed: () {
-
+                    onPressed: () async {
+                      await onEditUser(context, id);
                     },
                   ),
                 ),
@@ -163,8 +174,8 @@ class _DetailState extends State<Detail> {
                     elevation: 5,
                     color: Colors.blue,
                     child: Text('Delete'),
-                    onPressed: () {
-                      onDeleteUser(id);
+                    onPressed: () async {
+                      await onDeleteUser(id);
                     },
                   ),
                 ),
@@ -172,8 +183,6 @@ class _DetailState extends State<Detail> {
             ],
           ),
         ),
-
-        
       ],
     );
   }

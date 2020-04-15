@@ -6,18 +6,18 @@ import 'package:myusers_flutter/services/user.service.dart';
 import 'package:myusers_flutter/validator/general.dart';
 import 'package:myusers_flutter/helpers.dart';
 
-class Edit extends StatefulWidget {
-  Edit({Key key, this.title}) : super(key: key);
+class Create extends StatefulWidget {
+  Create({Key key, this.title}) : super(key: key);
 
-  static const String routeName = '/Edit';
+  static const String routeName = '/Create';
 
   final String title;
 
   @override
-  _EditState createState() => _EditState();
+  _CreateState createState() => _CreateState();
 }
 
-class _EditState extends State<Edit> {
+class _CreateState extends State<Create> {
 
   String name;
   String job;
@@ -33,13 +33,13 @@ class _EditState extends State<Edit> {
     });
   }
 
-  void showRetry(DioError error, int id) {
+  void showRetry(DioError error) {
     handleError(context, error, () async {
-      await onSubmit(id);
+      await onSubmit();
     });
   }
 
-  Future<void> onSubmit(int id) async {
+  Future<void> onSubmit() async {
     var valid = formKey.currentState.validate();
     if (!valid) {
       return;
@@ -50,12 +50,12 @@ class _EditState extends State<Edit> {
         name: name,
         job: job
       };
-      await updateUser(id, o);
+      await createUser(o);
       Navigator.pop(context, true);
     }
 
     catch (error) {
-      showRetry(error, id);
+      showRetry(error);
     }
   }
 
@@ -98,8 +98,6 @@ class _EditState extends State<Edit> {
 
   @override
   Widget build(BuildContext context) {
-    int id = ModalRoute.of(context).settings.arguments;
-
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
@@ -111,13 +109,13 @@ class _EditState extends State<Edit> {
           padding: EdgeInsets.only(left: 2.0, right: 2.0),
           child: FlatButton(
             color: Colors.blue,
-            child: Text('Update'),
+            child: Text('Create'),
             onPressed: !isValid ? null : () async {
-              await onSubmit(id);
+              await onSubmit();
             },
           ),
         )
       ],
     );
   }
-} 
+}

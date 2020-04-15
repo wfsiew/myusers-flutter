@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:myusers_flutter/ui/home.dart';
+import 'package:myusers_flutter/ui/create.dart';
 import 'package:myusers_flutter/ui/detail.dart';
+import 'package:myusers_flutter/ui/edit.dart';
 
 void main() => runApp(MyApp());
 
@@ -9,8 +11,10 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var routes = <String, WidgetBuilder>{
-      Home.routeName: (BuildContext context) => Home(title: "Users"),
-      Detail.routeName: (BuildContext context) => Detail(title: "Detail"),
+      Home.routeName: (BuildContext context) => Home(title: 'Users'),
+      Create.routeName: (BuildContext context) => Create(title: 'Create'),
+      Detail.routeName: (BuildContext context) => Detail(title: 'Detail'),
+      Edit.routeName: (BuildContext context) => Edit(title: 'Edit')
     };
 
     return MaterialApp(

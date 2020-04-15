@@ -37,6 +37,26 @@ Future<User> getUser(int id) async {
   return o;
 }
 
+Future<void> createUser(o) async {
+  try {
+    await dio.post('$url', data: o);
+  }
+
+  catch (error) {
+    throw(error);
+  }
+}
+
+Future<void> updateUser(id, o) async {
+  try {
+    await dio.put('$url/$id', data: o);
+  }
+
+  catch (error) {
+    throw(error);
+  }
+}
+
 Future<void> deleteUser(int id) async {
   try {
     await dio.delete('$url/$id');
