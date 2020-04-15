@@ -106,7 +106,7 @@ class _CreateState extends State<Create> {
       persistentFooterButtons: <Widget>[
         Container(
           width: MediaQuery.of(context).size.width,
-          padding: EdgeInsets.only(left: 2.0, right: 2.0),
+          padding: EdgeInsets.only(left: 0.0, right: 0.0),
           child: RaisedButton(
             elevation: 5,
             color: Colors.blue,
